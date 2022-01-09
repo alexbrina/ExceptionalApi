@@ -18,6 +18,8 @@ namespace ExceptionalApi
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddHttpClient();
+
             // adiciona as Controllers com ExceptionHandlerFilter global
             services.AddControllers(options => options.Filters.Add<ExceptionHandlerFilter>());
 
