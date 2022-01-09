@@ -26,6 +26,13 @@ namespace ExceptionalApi
         private static ObjectResult DomainExceptionHandler(ExceptionContext context)
         {
             var problemDetails = CreateBasicProblemDetails(context);
+            var ex = context.Exception as DomainException;
+
+            if (ex.Extras != null)
+            {
+                problemDetails.Extensions["extras"] = ex.Extras;
+            }
+
             return new BadRequestObjectResult(problemDetails);
         }
 

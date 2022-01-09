@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -25,7 +26,10 @@ namespace ExceptionalApi.Controllers
         {
             return (new Random()).Next(1, 4) switch
             {
-                2 => throw new ValorLimiteExcedidoException(),
+                2 => throw new ValorLimiteExcedidoException(
+                    new Dictionary<string, string>(){
+                        { "limite", "1000" }
+                    }),
                 3 => throw new ServicoProtecaoCreditoIndisponivelException(),
                 _ => Ok(),
             };
