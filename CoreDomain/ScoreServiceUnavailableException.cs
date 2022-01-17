@@ -4,13 +4,13 @@ using System.Runtime.Serialization;
 namespace CoreDomain
 {
     [Serializable]
-    public sealed class ServicoProtecaoCreditoIndisponivelException : Exception
+    public sealed class ScoreServiceUnavailableException : Exception
     {
-        public ServicoProtecaoCreditoIndisponivelException()
+        public ScoreServiceUnavailableException()
         {
         }
 
-        private ServicoProtecaoCreditoIndisponivelException(
+        private ScoreServiceUnavailableException(
             SerializationInfo info, StreamingContext context)
             : base(info, context)
         {

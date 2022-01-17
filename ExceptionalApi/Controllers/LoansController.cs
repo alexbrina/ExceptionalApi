@@ -9,31 +9,31 @@ namespace ExceptionalApi.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class EmprestimosController : ControllerBase
+    public class LoansController : ControllerBase
     {
-        private const string RequestUri = "http://localhost:20850/Emprestimos/Solicitacoes";
+        private const string RequestUri = "http://localhost:20850/Loans/Applications";
 
-        [HttpPost("Solicitacoes")]
-        public IActionResult SolicitacoesCreate()
+        [HttpPost("Applications")]
+        public IActionResult ApplicationCreate()
         {
             return (new Random()).Next(1, 5) switch
             {
-                1 => throw new ClienteBloqueadoException(),
-                2 => throw ValorLimiteExcedido(),
-                3 => throw new ServicoProtecaoCreditoIndisponivelException(),
+                1 => throw new RegistrationPendingException(),
+                2 => throw LoanLimitExceeded(),
+                3 => throw new ScoreServiceUnavailableException(),
                 _ => base.Ok(),
             };
 
-            static ValorLimiteExcedidoException ValorLimiteExcedido()
+            static LoanLimitExceededException LoanLimitExceeded()
             {
-                var ex = new ValorLimiteExcedidoException();
-                ex.Data.Add("limite", 1000);
+                var ex = new LoanLimitExceededException();
+                ex.Data.Add("limit", 1000);
                 return ex;
             }
         }
 
-        [HttpPost("SimularClientRequest")]
-        public async Task<IActionResult> DomainExceptionClientPost(
+        [HttpPost("SimulateClientRequest")]
+        public async Task<IActionResult> SimulateClientRequest(
             [FromServices] IHttpClientFactory httpClientFactory)
         {
             using var httpClient = httpClientFactory.CreateClient();
@@ -42,7 +42,7 @@ namespace ExceptionalApi.Controllers
 
             if (response.IsSuccessStatusCode)
             {
-                return Ok("Sucesso!");
+                return Ok("Success!");
             }
             else
             {
